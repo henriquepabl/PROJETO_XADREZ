@@ -1,4 +1,6 @@
-package projectxadrez;
+package projeto_xadrez;
+
+import projeto_xadrez.pecas.*;
 
 public class Tabuleiro {
     private Casa[][] casas;
@@ -20,7 +22,7 @@ public class Tabuleiro {
         }
     }
 
-    private void colocarPecasIniciais() {
+    private void colocarPecasIniciais() { /* !! complementar para outras peças !! */
         // Peões brancos (linha 2)
         for (char c = 'a'; c <= 'h'; c++) {
             getCasa(2, c).setPeca(new Peao("branco"));
@@ -67,7 +69,7 @@ public class Tabuleiro {
         return casas[8 - linha][coluna - 'a'];
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) { /* !! Depois vai precisar remover !! */
         Tabuleiro tabuleiro = new Tabuleiro();
         System.out.println(tabuleiro.desenho());
     }
