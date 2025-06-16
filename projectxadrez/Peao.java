@@ -12,9 +12,7 @@ public class Peao extends Peca {
         jaMoveu = situacao;
     }
     @Override
-    public String desenho() {
-        return getCor().equals("branco") ? "P" : "p";
-    }
+    public String desenho() { return "P"; }
 
     @Override
     public Boolean movimentoValido(int linhaO,char colunaO,int linhaD,char colunaD){
