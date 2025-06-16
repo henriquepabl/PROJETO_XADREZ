@@ -1,0 +1,54 @@
+package projectxadrez;
+
+public class Casa {
+    private static final String FUNDO_CLARO = "\u001B[48;5;180m";  // Marrom claro
+    private static final String FUNDO_ESCURO = "\u001B[48;5;94m";   // Marrom escuro
+    private static final String TEXTO_BRANCO = "\u001B[97m";
+    private static final String TEXTO_PRETO = "\u001B[30m";
+    private static final String RESET = "\u001B[0m";
+
+    private int linha;
+    private char coluna;
+    private boolean clara;
+    private Peca peca;
+
+    public Casa(int linha, char coluna, boolean clara) {
+        this.linha = linha;
+        this.coluna = coluna;
+        this.clara = clara;
+    }
+
+    public boolean estaVazia() {
+        return peca == null;
+    }
+
+    public Peca getPeca() {
+        return peca;
+    }
+
+    public void setPeca(Peca peca) {
+        this.peca = peca;
+    }
+
+    @Override
+    public String toString() {
+        String fundo = clara ? FUNDO_CLARO : FUNDO_ESCURO;
+        String texto = "   "; // Alinhamento
+
+        if (!estaVazia()) {
+            // Peças brancas com texto branco, peças pretas com texto preto
+            String corTexto = peca.getCor().equals("branco") ? TEXTO_BRANCO : TEXTO_PRETO;
+            texto = " " + corTexto + peca.desenho() + " ";
+        }
+
+        return fundo + texto + RESET;
+    }
+
+    public int getLinha() {
+        return linha;
+    }
+
+    public char getColuna() {
+        return coluna;
+    }
+}
