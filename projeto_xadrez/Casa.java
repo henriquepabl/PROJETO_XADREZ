@@ -1,4 +1,6 @@
-package projectxadrez;
+package projeto_xadrez;
+
+import projeto_xadrez.pecas.*;
 
 public class Casa {
     private static final String FUNDO_CLARO = "\u001B[48;5;180m";  // Marrom claro
