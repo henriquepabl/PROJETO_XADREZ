@@ -19,8 +19,6 @@ public class Peao extends Peca {
 
     @Override
     public boolean movimentoValido(int linhaO, char colunaO, int linhaD, char colunaD) {
-        if (!dentroDoTabuleiro(linhaO, colunaO) || !dentroDoTabuleiro(linhaD, colunaD)) return false;
-
         int direcao = getCor().equals("branco") ? 1 : -1;
         int difLinha = linhaD - linhaO;
         int difColuna = Math.abs(colunaD - colunaO);
