@@ -20,9 +20,6 @@ public abstract class Peca{
     public void capturar() {
         capturada = true;
     }
-    protected static boolean dentroDoTabuleiro(int linha, char coluna) {
-        return linha >= 1 && linha <= 8 && coluna >= 'a' && coluna <= 'h';
-    }
     public abstract String desenho();
     public abstract boolean movimentoValido(int linhaO,char colunaO,int linhaD,char colunaD);
     public abstract String caminho(int linhaO,char colunaO,int linhaD,char colunaD);
