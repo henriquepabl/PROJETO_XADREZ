@@ -12,7 +12,6 @@ public class Cavalo extends Peca {
 
     @Override
     public boolean movimentoValido(int linhaO, char colunaO, int linhaD, char colunaD) { 
-        if (!dentroDoTabuleiro(linhaO, colunaO) || !dentroDoTabuleiro(linhaD, colunaD)) return false;
         int difLinha = Math.abs(linhaD - linhaO);
         int difColuna = Math.abs(colunaD - colunaO);
         
@@ -23,6 +22,25 @@ public class Cavalo extends Peca {
 
     @Override
     public String caminho(int linhaO, char colunaO, int linhaD, char colunaD) { 
-        return ""; 
-    } // implementar
+        if(!movimentoValido(linhaO, colunaO, linhaD, colunaD))return ""; 
+        int difLinha = (linhaD - linhaO);
+        int difColuna = (colunaD - colunaO);
+       
+        StringBuilder caminho = new StringBuilder();
+        caminho.append(linhaO).append((colunaO));
+        if(Math.abs(difLinha) == 2 && Math.abs(difColuna) == 1) {
+            int passoLinha = difLinha / 2;
+            caminho.append(linhaO + passoLinha).append(colunaO);
+            caminho.append(linhaO + 2 * passoLinha).append(colunaO);
+        }
+        else if(Math.abs(difLinha) == 1 && Math.abs(difColuna) == 2) {
+            int passoColuna = difColuna / 2;
+            caminho.append(linhaO).append((char)(colunaO + passoColuna));
+            caminho.append(linhaO).append((char)(colunaO + 2 * passoColuna));
+        }
+
+        caminho.append(linhaD).append(colunaD);
+        
+        return caminho.toString();
+    }
 }
