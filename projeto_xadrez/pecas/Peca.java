@@ -1,7 +1,7 @@
 package projeto_xadrez.pecas;
 
 public abstract class Peca{
-    private String cor;
+    private final String cor;
     private boolean capturada;
     
     public Peca(String color){
@@ -20,7 +20,6 @@ public abstract class Peca{
     public void capturar() {
         capturada = true;
     }
-
     public abstract String desenho();
     public abstract boolean movimentoValido(int linhaO,char colunaO,int linhaD,char colunaD);
     public abstract String caminho(int linhaO,char colunaO,int linhaD,char colunaD);

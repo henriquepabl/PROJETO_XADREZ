@@ -32,7 +32,15 @@ public class Tabuleiro {
         for (char c = 'a'; c <= 'h'; c++) {
             getCasa(7, c).setPeca(new Peao("preto"));
         }
+        // Cavalos brancos 
+        getCasa(1,'b').setPeca(new Cavalo("branco"));
+        getCasa(1,'g').setPeca(new Cavalo("branco"));
+        
+        //Cavalos pretos
+        getCasa(8,'b').setPeca(new Cavalo("preto"));
+        getCasa(8,'g').setPeca(new Cavalo("preto"));
     }
+
 
     public String desenho() {
         StringBuilder sb = new StringBuilder();
