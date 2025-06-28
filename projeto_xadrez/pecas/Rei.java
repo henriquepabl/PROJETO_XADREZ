@@ -11,8 +11,19 @@ public class Rei extends Peca {
     }
 
     @Override
-    public boolean movimentoValido(int linhaO, char colunaO, int linhaD, char colunaD) { return true; } // implementar
+    public boolean movimentoValido(int linhaO, char colunaO, int linhaD, char colunaD) {
+        int difLinha = Math.abs(linhaD - linhaO);
+        int difColuna = Math.abs(colunaD - colunaO);
+        return (difLinha <= 1 && difColuna <= 1);
+
+        // TODO: Implementar verificação de xeque na casa de destino
+    }
 
     @Override
-    public String caminho(int linhaO, char colunaO, int linhaD, char colunaD) { return ""; } // implementar
+    public String caminho(int linhaO, char colunaO, int linhaD, char colunaD) {
+        if (!movimentoValido(linhaO, colunaO, linhaD, colunaD)) {
+            return "";
+        }
+        return linhaO + "" + colunaO + linhaD + colunaD;
+    }
 }

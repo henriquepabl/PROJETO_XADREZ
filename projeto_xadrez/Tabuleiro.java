@@ -22,33 +22,45 @@ public class Tabuleiro {
         }
     }
 
-    private void colocarPecasIniciais() { /* !! complementar para outras peças !! */
-        // Peões brancos (linha 2)
+    private void colocarPecasIniciais() {
+        // Peões
         for (char c = 'a'; c <= 'h'; c++) {
             getCasa(2, c).setPeca(new Peao("branco"));
-        }
-
-        // Peões pretos (linha 7)
-        for (char c = 'a'; c <= 'h'; c++) {
             getCasa(7, c).setPeca(new Peao("preto"));
         }
-        // Cavalos brancos 
-        getCasa(1,'b').setPeca(new Cavalo("branco"));
-        getCasa(1,'g').setPeca(new Cavalo("branco"));
-        
-        //Cavalos pretos
-        getCasa(8,'b').setPeca(new Cavalo("preto"));
-        getCasa(8,'g').setPeca(new Cavalo("preto"));
-    }
 
+        // Cavalos
+        getCasa(1, 'b').setPeca(new Cavalo("branco"));
+        getCasa(1, 'g').setPeca(new Cavalo("branco"));
+        getCasa(8, 'b').setPeca(new Cavalo("preto"));
+        getCasa(8, 'g').setPeca(new Cavalo("preto"));
+
+        // Reis e Damas
+        getCasa(1, 'e').setPeca(new Rei("branco"));
+        getCasa(8, 'e').setPeca(new Rei("preto"));
+        getCasa(1, 'd').setPeca(new Dama("branco"));
+        getCasa(8, 'd').setPeca(new Dama("preto"));
+
+        // Torres
+        getCasa(1, 'a').setPeca(new Torre("branco"));
+        getCasa(1, 'h').setPeca(new Torre("branco"));
+        getCasa(8, 'a').setPeca(new Torre("preto"));
+        getCasa(8, 'h').setPeca(new Torre("preto"));
+
+        // Bispos
+        getCasa(1, 'c').setPeca(new Bispo("branco"));
+        getCasa(1, 'f').setPeca(new Bispo("branco"));
+        getCasa(8, 'c').setPeca(new Bispo("preto"));
+        getCasa(8, 'f').setPeca(new Bispo("preto"));
+    }
 
     public String desenho() {
         StringBuilder sb = new StringBuilder();
 
         // Cabeçalho com letras
-        sb.append("   ");
+        sb.append("  ");
         for (char c = 'a'; c <= 'h'; c++) {
-            sb.append("").append(c).append("  ");
+            sb.append(" ").append(c).append(" ");
         }
         sb.append("\n");
 
@@ -62,9 +74,9 @@ public class Tabuleiro {
         }
 
         // Rodapé com letras
-        sb.append("   ");
+        sb.append("  ");
         for (char c = 'a'; c <= 'h'; c++) {
-            sb.append("").append(c).append("  ");
+            sb.append(" ").append(c).append(" ");
         }
 
         return sb.toString();
@@ -75,10 +87,5 @@ public class Tabuleiro {
             throw new IllegalArgumentException("Posição inválida: " + linha + coluna);
         }
         return casas[8 - linha][coluna - 'a'];
-    }
-
-    public static void main(String[] args) { /* !! Depois vai precisar remover !! */
-        Tabuleiro tabuleiro = new Tabuleiro();
-        System.out.println(tabuleiro.desenho());
     }
 }

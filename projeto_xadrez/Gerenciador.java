@@ -3,93 +3,80 @@ package projeto_xadrez;
 import java.util.Scanner;
 
 public class Gerenciador {
-
     private Tabuleiro tabuleiro;
-    private Jogador jogadorBranco;
-    private Jogador jogadorPreto;
-    private Jogador jogadorAtual;
+    private boolean jogoEmAndamento;
 
-    public GerenciadorXadrez() {
+    public Gerenciador() {
         tabuleiro = new Tabuleiro();
-        jogadorBranco = new Jogador("Brancas");
-        jogadorPreto = new Jogador("Pretas");
-        jogadorAtual = jogadorBranco;
+        jogoEmAndamento = false;
     }
 
-    public void iniciarJogo() {
+    public void iniciar() {
         Scanner scanner = new Scanner(System.in);
-        boolean jogando = true;
+        int opcao;
 
-        while (jogando) {
-            exibirMenuInicial();
-            int opcao = scanner.nextInt();
-            scanner.nextLine();
+        do {
+            System.out.println("\n=== MENU PRINCIPAL ===");
+            System.out.println("1. Novo Jogo");
+            System.out.println("2. Carregar Jogo");
+            System.out.println("3. Salvar Jogo");
+            System.out.println("4. Sair");
+            System.out.print("Escolha uma opção: ");
+
+            opcao = scanner.nextInt();
+            scanner.nextLine(); // Limpar buffer
 
             switch (opcao) {
                 case 1:
-                    jogarPartida(scanner);
+                    novoJogo();
                     break;
                 case 2:
-                    System.out.println("Exibindo regras básicas do jogo...");
-                    exibirRegras();
+                    carregarJogo();
                     break;
                 case 3:
-                    jogando = false;
+                    salvarJogo();
+                    break;
+                case 4:
                     System.out.println("Saindo do jogo...");
                     break;
                 default:
-                    System.out.println("Opção inválida.");
+                    System.out.println("Opção inválida!");
             }
-        }
+        } while (opcao != 4);
+
         scanner.close();
     }
 
-    private void exibirMenuInicial() {
-        System.out.println("===== XADREZ =====");
-        System.out.println("1 - Iniciar partida");
-        System.out.println("2 - Regras do jogo");
-        System.out.println("3 - Sair");
-        System.out.print("Escolha uma opção: ");
+    private void novoJogo() {
+        tabuleiro = new Tabuleiro();
+        jogoEmAndamento = true;
+        System.out.println("\nNovo jogo iniciado!");
+        System.out.println(tabuleiro.desenho());
+
+        // TODO: Implementar lógica de controle do jogo
+        // - Alternar turnos entre jogadores
+        // - Validar movimentos
+        // - Verificar xeque/xeque-mate
     }
 
-    private void jogarPartida(Scanner scanner) {
-        tabuleiro.inicializar();
-        boolean fimDeJogo = false;
-
-        while (!fimDeJogo) {
-            tabuleiro.exibir();
-            System.out.println("Vez do jogador: " + jogadorAtual.getNome());
-            System.out.print("Digite o movimento (ex: e2e4): ");
-            String movimento = scanner.nextLine();
-
-            if (tabuleiro.movimentoValido(movimento, jogadorAtual)) {
-                tabuleiro.realizarMovimento(movimento);
-                fimDeJogo = tabuleiro.verificarFimDeJogo();
-                alternarJogador();
-            } else {
-                System.out.println("Movimento inválido. Tente novamente.");
-            }
-        }
-        System.out.println("Fim da partida!");
+    private void carregarJogo() {
+        // TODO: Implementar carregamento de jogo a partir de arquivo
+        // - Ler estado do tabuleiro de um arquivo
+        // - Restaurar posições das peças
+        // - Continuar jogo interrompido
+        System.out.println("Funcionalidade de carregar jogo será implementada na semana 3");
     }
 
-    private void alternarJogador() {
-        jogadorAtual = (jogadorAtual == jogadorBranco) ? jogadorPreto : jogadorBranco;
-    }
-
-    private void exibirRegras() {
-        System.out.println("As regras básicas do xadrez incluem o movimento de cada peça:");
-        System.out.println("- Peões avançam para frente e capturam diagonalmente.");
-        System.out.println("- Torres se movem horizontal e verticalmente.");
-        System.out.println("- Cavalos se movem em L.");
-        System.out.println("- Bispos se movem diagonalmente.");
-        System.out.println("- Rainha se move em qualquer direção.");
-        System.out.println("- Rei se move apenas uma casa por vez.");
+    private void salvarJogo() {
+        // TODO: Implementar salvamento do jogo em arquivo
+        // - Salvar estado atual do tabuleiro
+        // - Armazenar posições de todas as peças
+        // - Salvar histórico de jogadas
+        System.out.println("Funcionalidade de salvar jogo será implementada na semana 3");
     }
 
     public static void main(String[] args) {
-        GerenciadorXadrez jogo = new GerenciadorXadrez();
-        jogo.iniciarJogo();
+        Gerenciador gerenciador = new Gerenciador();
+        gerenciador.iniciar();
     }
 }
-
