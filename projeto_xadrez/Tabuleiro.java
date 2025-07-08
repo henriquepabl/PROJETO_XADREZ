@@ -5,10 +5,10 @@ import projeto_xadrez.pecas.*;
 public class Tabuleiro {
     private Casa[][] casas;
 
-    public Tabuleiro() {
+    public Tabuleiro(Peca[] pecas) {
         casas = new Casa[8][8];
         inicializarTabuleiro();
-        colocarPecasIniciais();
+        colocarPecasIniciais(pecas);
     }
 
     private void inicializarTabuleiro() {
@@ -22,8 +22,10 @@ public class Tabuleiro {
         }
     }
 
-    private void colocarPecasIniciais() {
+
+        public void colocarPecasIniciais(Peca[] pecas) {
         // Peões
+        //implementar logica com array
         for (char c = 'a'; c <= 'h'; c++) {
             getCasa(2, c).setPeca(new Peao("branco"));
             getCasa(7, c).setPeca(new Peao("preto"));

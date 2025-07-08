@@ -15,8 +15,6 @@ public class Rei extends Peca {
         int difLinha = Math.abs(linhaD - linhaO);
         int difColuna = Math.abs(colunaD - colunaO);
         return (difLinha <= 1 && difColuna <= 1);
-
-        // TODO: Implementar verificação de xeque na casa de destino
     }
 
     @Override

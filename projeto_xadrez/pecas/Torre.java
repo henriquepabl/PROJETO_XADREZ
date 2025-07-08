@@ -14,6 +14,7 @@ public class Torre extends Peca {
     public boolean movimentoValido(int linhaO, char colunaO, int linhaD, char colunaD) {
         // Movimento na mesma linha ou na mesma coluna
         if (linhaO == linhaD && colunaO == colunaD) return false;
+
         return (linhaO == linhaD) || (colunaO == colunaD);
     }
 

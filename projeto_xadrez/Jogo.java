@@ -12,11 +12,13 @@ public class Jogo {
     private boolean vezBranco;
 
     public Jogo(){
-        inicializarJogadores();
-        colocarPecas();
         this.pecas = new Peca[32];
         this.situacao = 0;//situacao 0 = inicio,situacao -1 = xequemate, situacao 1 = xeque;
         vezBranco = true;
+        this.tabuleiro = new Tabuleiro(pecas);
+        inicializarJogadores();
+        colocarPecas();
+        tabuleiro.desenho();
     }   
 
 

@@ -9,9 +9,9 @@ public class Casa {
     private static final String TEXTO_PRETO = "\u001B[30m";
     private static final String RESET = "\u001B[0m";
 
-    private int linha;
-    private char coluna;
-    private boolean clara;
+    private final int linha;
+    private final char coluna;
+    private final boolean clara;
     private Peca peca;
 
     public Casa(int linha, char coluna, boolean clara) {

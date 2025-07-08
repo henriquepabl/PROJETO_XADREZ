@@ -3,11 +3,9 @@ package projeto_xadrez;
 import java.util.Scanner;
 
 public class Gerenciador {
-    private Tabuleiro tabuleiro;
     private boolean jogoEmAndamento;
 
     public Gerenciador() {
-        tabuleiro = new Tabuleiro();
         jogoEmAndamento = false;
     }
 
@@ -48,10 +46,9 @@ public class Gerenciador {
     }
 
     private void novoJogo() {
-        tabuleiro = new Tabuleiro();
+        Jogo jogo = new Jogo();
         jogoEmAndamento = true;
         System.out.println("\nNovo jogo iniciado!");
-        System.out.println(tabuleiro.desenho());
 
         // TODO: Implementar lógica de controle do jogo
         // - Alternar turnos entre jogadores
