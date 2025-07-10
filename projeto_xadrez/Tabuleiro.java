@@ -5,55 +5,18 @@ import projeto_xadrez.pecas.*;
 public class Tabuleiro {
     private Casa[][] casas;
 
-    public Tabuleiro(Peca[] pecas) {
+    public Tabuleiro(Peca[] pecasB, Peca[] pecasP) {
         casas = new Casa[8][8];
         inicializarTabuleiro();
-        colocarPecasIniciais(pecas);
+        colocarPecasIniciais(pecasB, pecasP);
     }
 
-    private void inicializarTabuleiro() {
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 8; j++) {
-                boolean clara = (i + j) % 2 == 0;
-                char coluna = (char) ('a' + j);
-                int linha = 8 - i;
-                casas[i][j] = new Casa(linha, coluna, clara);
-            }
-        }
-    }
-
-
-        public void colocarPecasIniciais(Peca[] pecas) {
-        // Peões
-        //implementar logica com array
-        for (char c = 'a'; c <= 'h'; c++) {
-            getCasa(2, c).setPeca(new Peao("branco"));
-            getCasa(7, c).setPeca(new Peao("preto"));
+    public Casa getCasa(int linha, char coluna) {
+        if (linha < 1 || linha > 8 || coluna < 'a' || coluna > 'h') {
+            throw new IllegalArgumentException("Posição inválida: " + linha + coluna);
         }
 
-        // Cavalos
-        getCasa(1, 'b').setPeca(new Cavalo("branco"));
-        getCasa(1, 'g').setPeca(new Cavalo("branco"));
-        getCasa(8, 'b').setPeca(new Cavalo("preto"));
-        getCasa(8, 'g').setPeca(new Cavalo("preto"));
-
-        // Reis e Damas
-        getCasa(1, 'e').setPeca(new Rei("branco"));
-        getCasa(8, 'e').setPeca(new Rei("preto"));
-        getCasa(1, 'd').setPeca(new Dama("branco"));
-        getCasa(8, 'd').setPeca(new Dama("preto"));
-
-        // Torres
-        getCasa(1, 'a').setPeca(new Torre("branco"));
-        getCasa(1, 'h').setPeca(new Torre("branco"));
-        getCasa(8, 'a').setPeca(new Torre("preto"));
-        getCasa(8, 'h').setPeca(new Torre("preto"));
-
-        // Bispos
-        getCasa(1, 'c').setPeca(new Bispo("branco"));
-        getCasa(1, 'f').setPeca(new Bispo("branco"));
-        getCasa(8, 'c').setPeca(new Bispo("preto"));
-        getCasa(8, 'f').setPeca(new Bispo("preto"));
+        return casas[8 - linha][coluna - 'a'];
     }
 
     public String desenho() {
@@ -84,10 +47,47 @@ public class Tabuleiro {
         return sb.toString();
     }
 
-    public Casa getCasa(int linha, char coluna) {
-        if (linha < 1 || linha > 8 || coluna < 'a' || coluna > 'h') {
-            throw new IllegalArgumentException("Posição inválida: " + linha + coluna);
+    private void inicializarTabuleiro() {
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                boolean clara = (i + j) % 2 == 0;
+                char coluna = (char) ('a' + j);
+                int linha = 8 - i;
+
+                casas[i][j] = new Casa(linha, coluna, clara);
+            }
         }
-        return casas[8 - linha][coluna - 'a'];
+    }
+
+    private void colocarPecasIniciais(Peca[] pecasB, Peca[] pecasP) { /* !! implementar logica com array B e P !! */
+        // Peões
+        for (char c = 'a'; c <= 'h'; c++) {
+            getCasa(2, c).setPeca(new Peao("branco"));
+            getCasa(7, c).setPeca(new Peao("preto"));
+        }
+
+        // Cavalos
+        getCasa(1, 'b').setPeca(new Cavalo("branco"));
+        getCasa(1, 'g').setPeca(new Cavalo("branco"));
+        getCasa(8, 'b').setPeca(new Cavalo("preto"));
+        getCasa(8, 'g').setPeca(new Cavalo("preto"));
+
+        // Reis e Damas
+        getCasa(1, 'e').setPeca(new Rei("branco"));
+        getCasa(8, 'e').setPeca(new Rei("preto"));
+        getCasa(1, 'd').setPeca(new Dama("branco"));
+        getCasa(8, 'd').setPeca(new Dama("preto"));
+
+        // Torres
+        getCasa(1, 'a').setPeca(new Torre("branco"));
+        getCasa(1, 'h').setPeca(new Torre("branco"));
+        getCasa(8, 'a').setPeca(new Torre("preto"));
+        getCasa(8, 'h').setPeca(new Torre("preto"));
+
+        // Bispos
+        getCasa(1, 'c').setPeca(new Bispo("branco"));
+        getCasa(1, 'f').setPeca(new Bispo("branco"));
+        getCasa(8, 'c').setPeca(new Bispo("preto"));
+        getCasa(8, 'f').setPeca(new Bispo("preto"));
     }
 }

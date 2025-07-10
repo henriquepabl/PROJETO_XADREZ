@@ -12,33 +12,29 @@ public class Torre extends Peca {
 
     @Override
     public boolean movimentoValido(int linhaO, char colunaO, int linhaD, char colunaD) {
-        // Movimento na mesma linha ou na mesma coluna
         if (linhaO == linhaD && colunaO == colunaD) return false;
 
-        return (linhaO == linhaD) || (colunaO == colunaD);
+        return linhaO == linhaD || colunaO == colunaD;
     }
 
     @Override
-   public String caminho(int linhaO, char colunaO, int linhaD, char colunaD) {
-        if (!movimentoValido(linhaO, colunaO, linhaD, colunaD)) {
-            return "";
-        }
+    public String caminho(int linhaO, char colunaO, int linhaD, char colunaD) {
+        if (!movimentoValido(linhaO, colunaO, linhaD, colunaD)) return "";
 
         StringBuilder caminho = new StringBuilder();
+        int dirLinha = Integer.compare(linhaD, linhaO);
+        int dirColuna = Integer.compare(colunaD, colunaO);
+        int linha = linhaO;
+        char coluna = colunaO;
 
-        if (linhaO == linhaD) { // Movimento horizontal
-            int dir = colunaD > colunaO ? 1 : -1;
-            for (char c = (char) (colunaO + dir); c != colunaD; c += dir) {
-                caminho.append(linhaO).append(c);
-            }
-        } else if (colunaO == colunaD) { // Movimento vertical
-            int dir = linhaD > linhaO ? 1 : -1;
-            for (int l = linhaO + dir; l != linhaD; l += dir) {
-                caminho.append(l).append(colunaO);
-            }
+        while (linha != linhaD || coluna != colunaD) {
+            caminho.append(linha).append(coluna);
+
+            linha += dirLinha;
+            coluna += dirColuna;
         }
+        caminho.append(linha).append(coluna);
 
-        caminho.append(linhaD).append(colunaD); // Inclui destino
         return caminho.toString();
     }
 }

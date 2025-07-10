@@ -12,45 +12,32 @@ public class Dama extends Peca {
 
     @Override
     public boolean movimentoValido(int linhaO, char colunaO, int linhaD, char colunaD) {
+        if (linhaO == linhaD && colunaO == colunaD) return false;
+
         int difLinha = Math.abs(linhaD - linhaO);
         int difColuna = Math.abs(colunaD - colunaO);
-        return (linhaO == linhaD || colunaO == colunaD) || (difLinha == difColuna);
+
+        return linhaO == linhaD || colunaO == colunaD || difLinha == difColuna;
     }
 
     @Override
     public String caminho(int linhaO, char colunaO, int linhaD, char colunaD) {
-        if (!movimentoValido(linhaO, colunaO, linhaD, colunaD)) {
-            return "";
-        }
+        if (!movimentoValido(linhaO, colunaO, linhaD, colunaD)) return "";
 
         StringBuilder caminho = new StringBuilder();
-        caminho.append(linhaO).append(colunaO);
+        int dirLinha = Integer.compare(linhaD, linhaO);
+        int dirColuna = Integer.compare(colunaD, colunaO);
+        int linha = linhaO;
+        char coluna = colunaO;
 
-        if (linhaO == linhaD) { // Movimento horizontal
-            int dir = colunaD > colunaO ? 1 : -1;
-            for (char c = (char) (colunaO + dir); c != colunaD; c += dir) {
-                caminho.append(linhaO).append(c);
-            }
-        } else if (colunaO == colunaD) { // Movimento vertical
-            int dir = linhaD > linhaO ? 1 : -1;
-            for (int l = linhaO + dir; l != linhaD; l += dir) {
-                caminho.append(l).append(colunaO);
-            }
-        } else { // Movimento diagonal
-            int dirLinha = linhaD > linhaO ? 1 : -1;
-            int dirColuna = colunaD > colunaO ? 1 : -1;
+        while (linha != linhaD || coluna != colunaD) {
+            caminho.append(linha).append(coluna);
 
-            int l = linhaO + dirLinha;
-            char c = (char) (colunaO + dirColuna);
-
-            while (l != linhaD && c != colunaD) {
-                caminho.append(l).append(c);
-                l += dirLinha;
-                c += dirColuna;
-            }
+            linha += dirLinha;
+            coluna += dirColuna;
         }
+        caminho.append(linha).append(coluna);
 
-        caminho.append(linhaD).append(colunaD);
         return caminho.toString();
     }
 }

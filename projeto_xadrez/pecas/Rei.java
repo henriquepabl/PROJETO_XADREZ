@@ -12,16 +12,18 @@ public class Rei extends Peca {
 
     @Override
     public boolean movimentoValido(int linhaO, char colunaO, int linhaD, char colunaD) {
+        if (linhaO == linhaD && colunaO == colunaD) return false;
+
         int difLinha = Math.abs(linhaD - linhaO);
         int difColuna = Math.abs(colunaD - colunaO);
-        return (difLinha <= 1 && difColuna <= 1);
+
+        return difLinha <= 1 && difColuna <= 1;
     }
 
     @Override
     public String caminho(int linhaO, char colunaO, int linhaD, char colunaD) {
-        if (!movimentoValido(linhaO, colunaO, linhaD, colunaD)) {
-            return "";
-        }
+        if (!movimentoValido(linhaO, colunaO, linhaD, colunaD)) return "";
+        
         return linhaO + "" + colunaO + linhaD + colunaD;
     }
 }
