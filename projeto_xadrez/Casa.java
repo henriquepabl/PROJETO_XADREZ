@@ -15,9 +15,14 @@ public class Casa {
     private Peca peca;
 
     public Casa(int linha, char coluna, boolean clara) {
+        if (linha < 1 || linha > 8 || coluna < 'a' || coluna > 'h') {
+            throw new IllegalArgumentException("Coordenadas inválidas para a casa: " + linha + coluna);
+        }
+
         this.linha = linha;
         this.coluna = coluna;
         this.clara = clara;
+        this.peca = null;
     }
 
     public int getLinha() {

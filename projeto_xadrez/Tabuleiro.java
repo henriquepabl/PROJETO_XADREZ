@@ -21,7 +21,7 @@ public class Tabuleiro {
 
     public String desenho() {
         StringBuilder sb = new StringBuilder();
-
+        
         // Cabeçalho com letras
         sb.append("  ");
         for (char c = 'a'; c <= 'h'; c++) {
@@ -59,35 +59,35 @@ public class Tabuleiro {
         }
     }
 
-    private void colocarPecasIniciais(Peca[] pecasB, Peca[] pecasP) { /* !! implementar logica com array B e P !! */
+    private void colocarPecasIniciais(Peca[] pecasB, Peca[] pecasP) {
         // Peões
-        for (char c = 'a'; c <= 'h'; c++) {
-            getCasa(2, c).setPeca(new Peao("branco"));
-            getCasa(7, c).setPeca(new Peao("preto"));
+        for (int i = 0; i < 8; i++) {
+            getCasa(2, (char)('a' + i)).setPeca(pecasB[i]);
+            getCasa(7, (char)('a' + i)).setPeca(pecasP[i]);
         }
 
-        // Cavalos
-        getCasa(1, 'b').setPeca(new Cavalo("branco"));
-        getCasa(1, 'g').setPeca(new Cavalo("branco"));
-        getCasa(8, 'b').setPeca(new Cavalo("preto"));
-        getCasa(8, 'g').setPeca(new Cavalo("preto"));
-
-        // Reis e Damas
-        getCasa(1, 'e').setPeca(new Rei("branco"));
-        getCasa(8, 'e').setPeca(new Rei("preto"));
-        getCasa(1, 'd').setPeca(new Dama("branco"));
-        getCasa(8, 'd').setPeca(new Dama("preto"));
-
         // Torres
-        getCasa(1, 'a').setPeca(new Torre("branco"));
-        getCasa(1, 'h').setPeca(new Torre("branco"));
-        getCasa(8, 'a').setPeca(new Torre("preto"));
-        getCasa(8, 'h').setPeca(new Torre("preto"));
+        getCasa(1, 'a').setPeca(pecasB[8]);
+        getCasa(1, 'h').setPeca(pecasB[9]);
+        getCasa(8, 'a').setPeca(pecasP[8]);
+        getCasa(8, 'h').setPeca(pecasP[9]);
+
+        // Cavalos
+        getCasa(1, 'b').setPeca(pecasB[10]);
+        getCasa(1, 'g').setPeca(pecasB[11]);
+        getCasa(8, 'b').setPeca(pecasP[10]);
+        getCasa(8, 'g').setPeca(pecasP[11]);
 
         // Bispos
-        getCasa(1, 'c').setPeca(new Bispo("branco"));
-        getCasa(1, 'f').setPeca(new Bispo("branco"));
-        getCasa(8, 'c').setPeca(new Bispo("preto"));
-        getCasa(8, 'f').setPeca(new Bispo("preto"));
+        getCasa(1, 'c').setPeca(pecasB[12]);
+        getCasa(1, 'f').setPeca(pecasB[13]);
+        getCasa(8, 'c').setPeca(pecasP[12]);
+        getCasa(8, 'f').setPeca(pecasP[13]);
+
+        // Damas e Reis
+        getCasa(1, 'd').setPeca(pecasB[14]);
+        getCasa(1, 'e').setPeca(pecasB[15]);
+        getCasa(8, 'd').setPeca(pecasP[14]);
+        getCasa(8, 'e').setPeca(pecasP[15]);
     }
 }
