@@ -3,13 +3,17 @@ package projeto_xadrez.pecas;
 public class Peao extends Peca {
     private boolean jaMoveu;
 
-    public Peao(String cor){
+    public Peao(String cor) {
         super(cor);
         jaMoveu = false;
     }
 
-    public void setJaMoveu(boolean situacao){
-        jaMoveu = situacao;
+    public boolean getJaMoveu() {
+        return jaMoveu;
+    }
+
+    public void setJaMoveu(boolean jaMoveu) {
+        this.jaMoveu = jaMoveu;
     }
 
     @Override
@@ -19,6 +23,8 @@ public class Peao extends Peca {
 
     @Override
     public boolean movimentoValido(int linhaO, char colunaO, int linhaD, char colunaD) {
+        if (linhaO == linhaD && colunaO == colunaD) return false;
+
         int direcao = getCor().equals("branco") ? 1 : -1;
         int difLinha = linhaD - linhaO;
         int difColuna = Math.abs(colunaD - colunaO);

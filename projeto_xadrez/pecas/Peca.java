@@ -1,11 +1,11 @@
 package projeto_xadrez.pecas;
 
-public abstract class Peca{
+public abstract class Peca {
     private final String cor;
     private boolean capturada;
     
-    public Peca(String color){
-        cor = color;
+    public Peca(String cor) {
+        this.cor = cor;
         capturada = false;
     }
 
@@ -13,15 +13,17 @@ public abstract class Peca{
         return cor;
     }
 
-    public boolean isCapturada() {
+    public boolean getCapturada() {
         return capturada;
     }
 
-    public void capturar() {
-        capturada = true;
+    public void setCapturada(boolean capturada) {
+        this.capturada = capturada;
     }
+
     public abstract String desenho();
-    public abstract boolean movimentoValido(int linhaO,char colunaO,int linhaD,char colunaD);
-    public abstract String caminho(int linhaO,char colunaO,int linhaD,char colunaD);
-    
+
+    public abstract boolean movimentoValido(int linhaO, char colunaO, int linhaD, char colunaD);
+
+    public abstract String caminho(int linhaO, char colunaO, int linhaD, char colunaD);
 }

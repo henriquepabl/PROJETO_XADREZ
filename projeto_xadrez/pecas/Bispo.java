@@ -12,32 +12,32 @@ public class Bispo extends Peca {
 
     @Override
     public boolean movimentoValido(int linhaO, char colunaO, int linhaD, char colunaD) {
-        int diffLinha = Math.abs(linhaO - linhaD);
-        int diffColuna = Math.abs(colunaO - colunaD);
-        return diffLinha == diffColuna;
+        if (linhaO == linhaD && colunaO == colunaD) return false;
+
+        int difLinha = Math.abs(linhaO - linhaD);
+        int difColuna = Math.abs(colunaO - colunaD);
+
+        return difLinha == difColuna;
     }
 
     @Override
     public String caminho(int linhaO, char colunaO, int linhaD, char colunaD) {
-        if (!movimentoValido(linhaO, colunaO, linhaD, colunaD)) {
-            return "";
-        }
+        if (!movimentoValido(linhaO, colunaO, linhaD, colunaD)) return "";
 
         StringBuilder caminho = new StringBuilder();
+        int dirLinha = Integer.compare(linhaD, linhaO);
+        int dirColuna = Integer.compare(colunaD, colunaO);
+        int linha = linhaO;
+        char coluna = colunaO;
 
-        int dirLinha = linhaD > linhaO ? 1 : -1;
-        int dirColuna = colunaD > colunaO ? 1 : -1;
-
-        int linha = linhaO + dirLinha;
-        char coluna = (char) (colunaO + dirColuna);
-
-        while (linha != linhaD && coluna != colunaD) {
+        while (linha != linhaD) {
             caminho.append(linha).append(coluna);
+
             linha += dirLinha;
             coluna += dirColuna;
         }
+        caminho.append(linha).append(coluna);
 
-        caminho.append(linhaD).append(colunaD); // Inclui destino
         return caminho.toString();
     }
 }
