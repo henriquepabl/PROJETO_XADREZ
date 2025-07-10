@@ -20,8 +20,12 @@ public class Casa {
         this.clara = clara;
     }
 
-    public boolean estaVazia() {
-        return peca == null;
+    public int getLinha() {
+        return linha;
+    }
+
+    public char getColuna() {
+        return coluna;
     }
 
     public Peca getPeca() {
@@ -30,6 +34,10 @@ public class Casa {
 
     public void setPeca(Peca peca) {
         this.peca = peca;
+    }
+
+    public boolean estaVazia() {
+        return peca == null;
     }
 
     @Override
@@ -44,13 +52,5 @@ public class Casa {
         }
 
         return fundo + texto + RESET;
-    }
-
-    public int getLinha() {
-        return linha;
-    }
-
-    public char getColuna() {
-        return coluna;
     }
 }
