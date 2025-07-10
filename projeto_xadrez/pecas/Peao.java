@@ -5,7 +5,7 @@ public class Peao extends Peca {
 
     public Peao(String cor) {
         super(cor);
-        jaMoveu = false;
+        this.jaMoveu = false;
     }
 
     public boolean getJaMoveu() {

@@ -8,10 +8,10 @@ public class Jogador {
     private final String cor;
     private Peca[] pecas;
 
-    public Jogador(String nome, String cor, Peca[] pecas) {
-        this.nome = nome;
+    public Jogador(String cor, Peca[] pecas) {
         this.cor = cor;
         this.pecas = pecas;
+        solicitarNome();
     }
 
     public String getNome() {
@@ -27,18 +27,40 @@ public class Jogador {
 
         System.out.println("Insira jogada (ou 'parar' para encerrar):");
 
-        return in.nextLine().trim();;
+        return in.nextLine().trim();
     }
 
     public String pecasCapturadas() {
         StringBuilder capturadas = new StringBuilder();
 
         for (Peca p : pecas) {
-            if (p != null && p.getCapturada()) {
+            if (p != null && p.estaCapturada()) {
                 capturadas.append(p.desenho()).append(" ");
             }
         }
 
         return capturadas.toString();
+    }
+
+    private void solicitarNome() {
+        Scanner scan = new Scanner(System.in);
+        String nome;
+        
+        while (true) {
+            try {
+                System.out.println("Jogador "+ getCor()+ ", digite seu nome: ");
+                nome = scan.nextLine().replaceAll(" ", "");
+
+                if (nome.isEmpty()) {
+                    throw new IllegalArgumentException("Nome não pode estar vazio");
+                }
+
+                this.nome = nome;
+                break;
+            }
+            catch (IllegalArgumentException msg) {
+                System.out.println("Nome inválido: "+ msg.getMessage());
+            }
+        }
     }
 }

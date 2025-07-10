@@ -24,6 +24,10 @@ public class Rei extends Peca {
     public String caminho(int linhaO, char colunaO, int linhaD, char colunaD) {
         if (!movimentoValido(linhaO, colunaO, linhaD, colunaD)) return "";
         
-        return linhaO + "" + colunaO + linhaD + colunaD;
+        StringBuilder caminho = new StringBuilder();
+
+        caminho.append(linhaO).append(colunaO).append(linhaD).append(colunaD);
+
+        return caminho.toString();
     }
 }
