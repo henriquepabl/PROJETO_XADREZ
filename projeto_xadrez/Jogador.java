@@ -11,7 +11,7 @@ public class Jogador {
     public Jogador(String cor, Peca[] pecas) {
         this.cor = cor;
         this.pecas = pecas;
-        solicitarNome();
+        this.nome = solicitarNome();
     }
 
     public String getNome() {
@@ -42,7 +42,7 @@ public class Jogador {
         return capturadas.toString();
     }
 
-    private void solicitarNome() {
+    private String solicitarNome() {
         Scanner scan = new Scanner(System.in);
         String nome;
         
@@ -55,8 +55,7 @@ public class Jogador {
                     throw new IllegalArgumentException("Nome não pode estar vazio");
                 }
 
-                this.nome = nome;
-                break;
+                return nome;
             }
             catch (IllegalArgumentException msg) {
                 System.out.println("Nome inválido: "+ msg.getMessage());

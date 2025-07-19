@@ -13,13 +13,13 @@ public class Jogo {
     private boolean vezBranco;
     private int situacao; //situacao 0 = inicio,situacao -1 = xequemate, situacao 1 = xeque;
     private ArrayList<String> historico;
-
+    private Jogada jogada;
     public Jogo() {
         pecasB = new Peca[16];
         pecasP = new Peca[16];
         colocarPecas();
         jogadorB = new Jogador("branco", pecasB);
-        jogadorB = new Jogador("preto", pecasP);
+        jogadorP = new Jogador("preto", pecasP);
         situacao = 0;
         vezBranco = true;
         tabuleiro = new Tabuleiro(pecasB, pecasP);
@@ -30,12 +30,11 @@ public class Jogo {
     }
 
     public boolean jogadaValida(int linhaO, char colunaO, int linhaD, char colunaD) {
-        return true;
+        
     }
 
     public void realizarJogada(int linhaO, char colunaO, int linhaD, char colunaD) { 
 
-        
     }
 
     public String registroJogo() {
