@@ -90,4 +90,7 @@ public class Tabuleiro {
         getCasa(8, 'd').setPeca(pecasP[14]);
         getCasa(8, 'e').setPeca(pecasP[15]);
     }
+    public static boolean noLimite(int linha, char coluna) {
+        return linha >= 1 && linha <= 8 && coluna >= 'a' && coluna <= 'h';
+    }
 }

@@ -34,7 +34,7 @@ public class Jogo {
     }
 
     public void realizarJogada(int linhaO, char colunaO, int linhaD, char colunaD) { 
-
+        
     }
 
     public String registroJogo() {
