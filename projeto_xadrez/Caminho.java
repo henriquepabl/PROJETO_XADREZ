@@ -6,10 +6,10 @@ public class Caminho{
     private ArrayList<Casa> casas;
     private Tabuleiro tabuleiro;
 
-    public Caminho(String jogada,Tabuleiro T){
+    public Caminho(String movimento,Tabuleiro T){
         tabuleiro = T;
         casas = new ArrayList<>();
-        inserirCasas(jogada);
+        inserirCasas(movimento);
     }
 
     public Casa casaFinal(){
@@ -29,10 +29,10 @@ public class Caminho{
         return true;
     }
 
-    private void inserirCasas(String jogada){
+    private void inserirCasas(String movimento){
         int i = 0;
-        while(i<jogada.length()-1){
-            casas.add(tabuleiro.getCasa(jogada.charAt(i++) -'0',jogada.charAt(i++)));
+        while(i<movimento.length()-1){
+            casas.add(tabuleiro.getCasa(movimento.charAt(i++) -'0',movimento.charAt(i++)));
         }
     }
 }
