@@ -6,64 +6,76 @@ import java.util.ArrayList;
 
 public class Jogo {
     private Tabuleiro tabuleiro;
-    private Jogador jogadorB;
-    private Jogador jogadorP;
-    private Peca[] pecasB;
-    private Peca[] pecasP;
+    private Jogador jogadorBranco;
+    private Jogador jogadorPreto;
+    private Peca[] pecasBrancas;
+    private Peca[] pecasPretas;
     private boolean vezBranco;
-    private int situacao; //situacao 0 = inicio,situacao -1 = xequemate, situacao 1 = xeque;
+    private boolean emAndamento;
+    private boolean xeque;
+    private boolean xequeMate;
     private ArrayList<String> historico;
     private Jogada jogada;
+
     public Jogo() {
-        pecasB = new Peca[16];
-        pecasP = new Peca[16];
+        pecasBrancas = new Peca[16];
+        pecasPretas = new Peca[16];
         colocarPecas();
-        jogadorB = new Jogador("branco", pecasB);
-        jogadorP = new Jogador("preto", pecasP);
-        situacao = 0;
+
+        jogadorBranco = new Jogador("branco", pecasBrancas);
+        jogadorPreto = new Jogador("preto", pecasPretas);
+
         vezBranco = true;
-        tabuleiro = new Tabuleiro(pecasB, pecasP);
+        emAndamento = true;
+        xeque = false;
+        xequeMate = false;
+
+        tabuleiro = new Tabuleiro(pecasBrancas, pecasPretas);
+
         historico = new ArrayList<>();
-        historico.add(jogadorB.getNome() + " - peças brancas");
-        historico.add(jogadorP.getNome() + " - peças pretas");
+
+        historico.add(jogadorBranco.getNome() + " - peças brancas");
+        historico.add(jogadorPreto.getNome() + " - peças pretas");
         tabuleiro.desenho(); /* !! DEPOIS REMOVER !! */
     }
 
-    public boolean jogadaValida(int linhaO, char colunaO, int linhaD, char colunaD) {
-        
-    }
+    public boolean jogadaValida(int linhaO, char colunaO, int linhaD, char colunaD) {return true;}
 
-    public void realizarJogada(int linhaO, char colunaO, int linhaD, char colunaD) { 
-        
-    }
+    public void realizarJogada(int linhaO, char colunaO, int linhaD, char colunaD) {}
 
     public String registroJogo() {
-        return "";
+        StringBuilder sb = new StringBuilder();
+
+        for (String s : historico) {
+            sb.append(s),append("\n");
+        }
+
+        return sb.toString();
     }
     
     private void colocarPecas() {
         int i = 0;
 
         while (i < 8) {
-            pecasB[i] = new Peao("branco");
-            pecasP[i++] = new Peao("preto");
+            pecasBrancas[i] = new Peao("branco");
+            pecasPretas[i++] = new Peao("preto");
         }
         while (i < 10) {
-            pecasB[i] = new Torre("branco");
-            pecasP[i++] = new Torre("preto");
+            pecasBrancas[i] = new Torre("branco");
+            pecasPretas[i++] = new Torre("preto");
         }
         while (i < 12) {
-            pecasB[i] = new Cavalo("branco");
-            pecasP[i++] = new Cavalo("preto");
+            pecasBrancas[i] = new Cavalo("branco");
+            pecasPretas[i++] = new Cavalo("preto");
         }
         while (i < 14) {
-            pecasB[i] = new Bispo("branco");
-            pecasP[i++] = new Bispo("preto");
+            pecasBrancas[i] = new Bispo("branco");
+            pecasPretas[i++] = new Bispo("preto");
         }
-        pecasB[i] = new Dama("branco");
-        pecasP[i++] = new Dama("preto");
-        pecasB[i] = new Rei("branco");
-        pecasP[i] = new Rei("preto");
+        pecasBrancas[i] = new Dama("branco");
+        pecasPretas[i++] = new Dama("preto");
+        pecasBrancas[i] = new Rei("branco");
+        pecasPretas[i] = new Rei("preto");
     }
 
     private void inverteVez() {
