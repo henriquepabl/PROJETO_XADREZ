@@ -6,7 +6,7 @@ import projeto_xadrez.pecas.*;
 public class Jogador {
     private final String nome;
     private final String cor;
-    private Peca[] pecas;
+    private final Peca[] pecas;
 
     public Jogador(String cor, Peca[] pecas) {
         this.cor = cor;
@@ -48,7 +48,7 @@ public class Jogador {
         
         while (true) {
             try {
-                System.out.println("Jogador "+ getCor()+ ", digite seu nome: ");
+                System.out.println("Jogador " + cor + ", digite seu nome: ");
                 nome = scan.nextLine().replaceAll(" ", "");
 
                 if (nome.isEmpty()) {

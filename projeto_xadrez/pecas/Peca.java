@@ -1,12 +1,12 @@
 package projeto_xadrez.pecas;
 
 public abstract class Peca {
-    protected final String cor;
-    protected boolean capturada;
+    private final String cor;
+    private boolean capturada;
 
     public Peca(String cor) {
-        if (!"branca".equals(cor) && !"preta".equals(cor)) {
-            throw new IllegalArgumentException("Cor inválida: " + cor + ". Use 'branca' ou 'preta'.");
+        if (!"branco".equals(cor) && !"preto".equals(cor)) {
+            throw new IllegalArgumentException("Cor inválida: " + cor + ". Use 'branco' ou 'preto'.");
         }
 
         this.cor = cor;
