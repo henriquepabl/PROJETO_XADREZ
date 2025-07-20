@@ -15,7 +15,7 @@ public class Casa {
     private Peca peca;
 
     public Casa(int linha, char coluna, boolean clara) {
-        if (linha < 1 || linha > 8 || coluna < 'a' || coluna > 'h') {
+        if (!Tabuleiro.noLimite(linha, coluna)) {
             throw new IllegalArgumentException("Coordenadas inválidas para a casa: " + linha + coluna);
         }
 

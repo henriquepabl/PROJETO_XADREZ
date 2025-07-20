@@ -5,11 +5,11 @@ public abstract class Peca {
     private boolean capturada;
 
     public Peca(String cor) {
-        if (!cor.equalsIgnoreCase("branca") && !cor.equalsIgnoreCase("preta")) {
-            throw new IllegalArgumentException("Cor inválida para a peça: " + cor);
+        if (!"branco".equals(cor) && !"preto".equals(cor)) {
+            throw new IllegalArgumentException("Cor inválida: " + cor + ". Use 'branco' ou 'preto'.");
         }
 
-        this.cor = cor.toLowerCase();
+        this.cor = cor;
         this.capturada = false;
     }
 
@@ -17,12 +17,12 @@ public abstract class Peca {
         return cor;
     }
 
-    public void setCapturada(boolean capturada) {
-        this.capturada = capturada;
-    }
-
     public boolean estaCapturada() {
         return capturada;
+    }
+
+    public void capturar() {
+        this.capturada = true;
     }
 
     public abstract String desenho();

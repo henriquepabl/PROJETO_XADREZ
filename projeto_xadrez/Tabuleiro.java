@@ -3,16 +3,17 @@ package projeto_xadrez;
 import projeto_xadrez.pecas.*;
 
 public class Tabuleiro {
-    private Casa[][] casas;
+    private final Casa[][] casas;
 
     public Tabuleiro(Peca[] pecasB, Peca[] pecasP) {
         casas = new Casa[8][8];
+
         inicializarTabuleiro();
         colocarPecasIniciais(pecasB, pecasP);
     }
 
     public Casa getCasa(int linha, char coluna) {
-        if (linha < 1 || linha > 8 || coluna < 'a' || coluna > 'h') {
+        if (!noLimite(linha, coluna)) {
             throw new IllegalArgumentException("Posição inválida: " + linha + coluna);
         }
 
@@ -45,6 +46,10 @@ public class Tabuleiro {
         }
 
         return sb.toString();
+    }
+
+    public static boolean noLimite(int linha, char coluna) {
+        return linha >= 1 && linha <= 8 && coluna >= 'a' && coluna <= 'h';
     }
 
     private void inicializarTabuleiro() {
@@ -89,8 +94,5 @@ public class Tabuleiro {
         getCasa(1, 'e').setPeca(pecasB[15]);
         getCasa(8, 'd').setPeca(pecasP[14]);
         getCasa(8, 'e').setPeca(pecasP[15]);
-    }
-    public static boolean noLimite(int linha, char coluna) {
-        return linha >= 1 && linha <= 8 && coluna >= 'a' && coluna <= 'h';
     }
 }
