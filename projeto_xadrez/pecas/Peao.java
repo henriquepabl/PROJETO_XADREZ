@@ -25,7 +25,7 @@ public class Peao extends Peca {
     public boolean movimentoValido(int linhaO, char colunaO, int linhaD, char colunaD) {
         if (linhaO == linhaD && colunaO == colunaD) return false;
 
-        int direcao = getCor().equals("branco") ? 1 : -1;
+        int direcao = cor.equals("branca") ? 1 : -1;
         int difLinha = linhaD - linhaO;
         int difColuna = Math.abs(colunaD - colunaO);
 
@@ -41,7 +41,7 @@ public class Peao extends Peca {
         if (!movimentoValido(linhaO, colunaO, linhaD, colunaD)) return "";
 
         StringBuilder caminho = new StringBuilder();
-        int direcao = getCor().equals("branco") ? 1 : -1;
+        int direcao = getCor().equals("branca") ? 1 : -1;
         int difLinha = linhaD - linhaO;
 
         caminho.append(linhaO).append(colunaO);

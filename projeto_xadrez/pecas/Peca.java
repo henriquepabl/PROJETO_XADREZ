@@ -1,15 +1,15 @@
 package projeto_xadrez.pecas;
 
 public abstract class Peca {
-    private final String cor;
-    private boolean capturada;
+    protected final String cor;
+    protected boolean capturada;
 
     public Peca(String cor) {
-        if (!cor.equalsIgnoreCase("branca") && !cor.equalsIgnoreCase("preta")) {
-            throw new IllegalArgumentException("Cor inválida para a peça: " + cor);
+        if (!"branca".equals(cor) && !"preta".equals(cor)) {
+            throw new IllegalArgumentException("Cor inválida: " + cor + ". Use 'branca' ou 'preta'.");
         }
 
-        this.cor = cor.toLowerCase();
+        this.cor = cor;
         this.capturada = false;
     }
 
@@ -17,12 +17,12 @@ public abstract class Peca {
         return cor;
     }
 
-    public void setCapturada(boolean capturada) {
-        this.capturada = capturada;
-    }
-
     public boolean estaCapturada() {
         return capturada;
+    }
+
+    public void capturar() {
+        this.capturada = true;
     }
 
     public abstract String desenho();
