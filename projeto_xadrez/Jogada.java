@@ -1,5 +1,7 @@
 package projeto_xadrez;
 
+import projeto_xadrez.pecas.*;
+
 public class Jogada {
     private final Jogador jogador;
     private final Caminho caminho;

@@ -47,7 +47,7 @@ public class Jogo {
         StringBuilder sb = new StringBuilder();
 
         for (String s : historico) {
-            sb.append(s),append("\n");
+            sb.append(s).append("\n");
         }
 
         return sb.toString();
