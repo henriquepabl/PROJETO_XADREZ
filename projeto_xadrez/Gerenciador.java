@@ -1,12 +1,15 @@
 package projeto_xadrez;
 
-import java.util.Scanner;
+import java.io.*;
+import java.util.*;
 
 public class Gerenciador {
     private boolean jogoEmAndamento;
+    private Jogo jogo;
 
     public Gerenciador() {
         jogoEmAndamento = false;
+        jogo = null;
     }
 
     public void iniciar() {
@@ -46,34 +49,71 @@ public class Gerenciador {
     }
 
     private void novoJogo() {
-        Jogo jogo = new Jogo();
+        jogo = new Jogo();
         jogoEmAndamento = true;
-        System.out.println("\nNovo jogo iniciado!");
 
-        // TODO: Implementar lógica de controle do jogo
-        // - Alternar turnos entre jogadores
-        // - Validar movimentos
-        // - Verificar xeque/xeque-mate
-    }
+        while (!jogo.terminado()) {
+            System.out.println(jogo.getTabuleiro().desenho());
+            Jogador atual = jogo.jogadorAtual();
+            String entrada = atual.informaJogada();
 
-    private void carregarJogo() {
-        // TODO: Implementar carregamento de jogo a partir de arquivo
-        // - Ler estado do tabuleiro de um arquivo
-        // - Restaurar posições das peças
-        // - Continuar jogo interrompido
-        System.out.println("Funcionalidade de carregar jogo será implementada na semana 3");
+            if (entrada.equalsIgnoreCase("parar")) break;
+
+            try {
+                Jogada jogada = new Jogada(entrada, atual, jogo.getTabuleiro());
+                if (jogada.ehValida()) {
+                    jogo.realizarJogada(jogada);
+                    jogo.registrarJogada(entrada);
+                    jogo.inverterVez();
+                } else {
+                    System.out.println("Jogada inválida. Tente novamente.");
+                }
+            } catch (Exception e) {
+                System.out.println("Erro na jogada: " + e.getMessage());
+            }
+        }
+
+        jogoEmAndamento = false;
+        System.out.println("Fim de jogo!");
     }
 
     private void salvarJogo() {
-        // TODO: Implementar salvamento do jogo em arquivo
-        // - Salvar estado atual do tabuleiro
-        // - Armazenar posições de todas as peças
-        // - Salvar histórico de jogadas
-        System.out.println("Funcionalidade de salvar jogo será implementada na semana 3");
+        if (!jogoEmAndamento || jogo == null) {
+            System.out.println("Nenhum jogo em andamento para salvar.");
+            return;
+        }
+
+        try (FileWriter fw = new FileWriter("salvo.txt")) {
+            for (String linha : jogo.getHistorico()) {
+                fw.write(linha + "\n");
+            }
+            System.out.println("Jogo salvo com sucesso.");
+        } catch (IOException e) {
+            System.out.println("Erro ao salvar: " + e.getMessage());
+        }
+    }
+
+    private void carregarJogo() {
+        try (BufferedReader br = new BufferedReader(new FileReader("salvo.txt"))) {
+            List<String> historico = new ArrayList<>();
+            String linha;
+
+            while ((linha = br.readLine()) != null) {
+                historico.add(linha);
+            }
+
+            jogo = new Jogo(historico);
+            jogoEmAndamento = true;
+            novoJogo();
+
+        } catch (IOException e) {
+            System.out.println("Erro ao carregar: " + e.getMessage());
+        }
     }
 
     public static void main(String[] args) {
-        Gerenciador gerenciador = new Gerenciador();
-        gerenciador.iniciar();
+        Gerenciador g = new Gerenciador();
+        g.iniciar();
     }
 }
+
