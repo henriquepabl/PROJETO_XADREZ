@@ -1,61 +1,167 @@
 package projeto_xadrez;
 
-import projeto_xadrez.pecas.*;
-import java.util.Scanner;
+import projeto_xadrez.pecas.*; 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
 public class Jogo {
-    private Tabuleiro tabuleiro;
-    private Jogador jogadorBranco;
-    private Jogador jogadorPreto;
-    private Peca[] pecasBrancas;
-    private Peca[] pecasPretas;
-    private boolean vezBranco;
+    private final Tabuleiro tabuleiro;
+    private final Jogador jogadorBranco;
+    private final Jogador jogadorPreto;
+    private final Peca[] pecasBrancas;
+    private final Peca[] pecasPretas;
+    private final List<String> historico;
+    private Jogador jogadorAtual;
+    private Jogada jogada;
     private boolean emAndamento;
     private boolean xeque;
     private boolean xequeMate;
-    private ArrayList<String> historico;
-    private Jogada jogada;
 
-    public Jogo() {
+    public Jogo(Scanner sc) {
         pecasBrancas = new Peca[16];
         pecasPretas = new Peca[16];
-        colocarPecas();
+        inserirPecasIniciais();
 
-        jogadorBranco = new Jogador("branco", pecasBrancas);
-        jogadorPreto = new Jogador("preto", pecasPretas);
-
-        vezBranco = true;
-        emAndamento = true;
-        xeque = false;
-        xequeMate = false;
+        jogadorBranco = new Jogador("branco", pecasBrancas, sc);
+        jogadorPreto = new Jogador("preto", pecasPretas, sc);
+        jogadorAtual = jogadorBranco;
 
         tabuleiro = new Tabuleiro(pecasBrancas, pecasPretas);
 
         historico = new ArrayList<>();
+        historico.add(jogadorBranco.getNome());
+        historico.add(jogadorPreto.getNome());
 
-        historico.add(jogadorBranco.getNome() + " - peças brancas");
-        historico.add(jogadorPreto.getNome() + " - peças pretas");
-        tabuleiro.desenho(); /* !! DEPOIS REMOVER !! */
+        jogada = null;
+        emAndamento = true;
+        xeque = false;
+        xequeMate = false;
     }
 
-    public boolean jogadaValida(int linhaO, char colunaO, int linhaD, char colunaD) {return true;}
+    public Jogo(Scanner sc, List<String> historico) {
+        this.historico = historico;
 
-    public void realizarJogada(int linhaO, char colunaO, int linhaD, char colunaD) {}
+        pecasBrancas = new Peca[16];
+        pecasPretas = new Peca[16];
+        inserirPecasIniciais();
+
+        jogadorBranco = new Jogador("branco", historico.get(0), pecasBrancas, sc);
+        jogadorPreto = new Jogador("preto", historico.get(1), pecasPretas, sc);
+        jogadorAtual = jogadorBranco;
+
+        tabuleiro = new Tabuleiro(pecasBrancas, pecasPretas);
+
+        jogada = null;
+        emAndamento = true;
+        xeque = false;
+        xequeMate = false;
+
+        recuperarJogo();
+    }
+
+    public boolean jogadaValida(int linhaO, char colunaO, int linhaD, char colunaD) {
+        jogada = new Jogada(linhaO, colunaO, linhaD, colunaD, jogadorAtual, tabuleiro);
+
+        return jogada.ehValida();
+    }
+
+    public void realizarJogada(int linhaO, char colunaO, int linhaD, char colunaD) {
+        Casa casaOrigem = tabuleiro.getCasa(linhaO, colunaO);
+        Casa casaDestino = tabuleiro.getCasa(linhaD, colunaD);
+        Peca pecaOrigem = casaOrigem.getPeca();
+        Peca pecaDestino = casaDestino.getPeca();
+
+        if (pecaDestino != null) {
+            pecaDestino.capturar();
+        }
+
+        casaOrigem.setPeca(null);
+        casaDestino.setPeca(pecaOrigem);
+
+        if (pecaOrigem.desenho().equals("P")) {
+            ((Peao)pecaOrigem).setJaMoveu(true);;
+        }
+    }
 
     public String registroJogo() {
         StringBuilder sb = new StringBuilder();
 
         for (String s : historico) {
-            sb.append(s),append("\n");
+            sb.append(s).append("\n");
         }
 
         return sb.toString();
     }
-    
-    private void colocarPecas() {
-        int i = 0;
 
+    public void jogar() {
+        while (emAndamento) {
+            try {
+                System.out.println("\n============================================");
+                System.out.println("Vez de: " + jogadorAtual.getNome());
+                System.out.println("\nPeças capturadas por " + jogadorPreto.getNome() + ": " + jogadorBranco.pecasCapturadas());
+                System.out.println(tabuleiro.desenho());
+                System.out.println("Peças capturadas por " + jogadorBranco.getNome() + ": " + jogadorPreto.pecasCapturadas());
+                System.out.println("============================================\n");
+
+                String entrada;
+                while (true) {
+                    entrada = jogadorAtual.informaJogada();
+
+                    if ("parar".equalsIgnoreCase(entrada)) {
+                        return;
+                    }
+
+                    try {
+                        int linhaO = entrada.charAt(0) - '0';
+                        char colunaO = entrada.charAt(1);
+                        int linhaD = entrada.charAt(2) - '0';
+                        char colunaD = entrada.charAt(3);
+
+                        if (jogadaValida(linhaO, colunaO, linhaD, colunaD)) {
+                            realizarJogada(linhaO, colunaO, linhaD, colunaD);
+                            registrarJogada(entrada);
+                            inverteVez();
+                            break;
+                        } else {
+                            System.out.println("Jogada inválida. Tente novamente.");
+                        }
+                    } catch (StringIndexOutOfBoundsException e) {
+                        System.out.println("Formato inválido. Use o formato '1a2b' (linha coluna linha coluna).");
+                    } catch (NumberFormatException e) {
+                        System.out.println("Formato inválido. A linha deve ser um número entre 1 e 8.");
+                    } catch (IllegalArgumentException e) {
+                        System.out.println("Erro: " + e.getMessage());
+                    }
+                }
+
+                if (xequeMate) {
+                    System.out.println("Xeque-mate! Jogo terminado.");
+                    emAndamento = false;
+                } else if (xeque) {
+                    System.out.println("Xeque!");
+                }
+            } catch (Exception e) {
+                System.out.println("Ocorreu um erro inesperado: " + e.getMessage());
+            }
+        }
+    }
+
+    public void registrarJogada(String jogada) {
+        historico.add(jogada);
+    }
+
+    private void inverteVez() {
+        if (jogadorAtual == jogadorBranco) {
+            jogadorAtual = jogadorPreto;
+        }
+        else {
+            jogadorAtual = jogadorBranco;
+        }
+    }
+
+    private void inserirPecasIniciais() {
+        int i = 0;
         while (i < 8) {
             pecasBrancas[i] = new Peao("branco");
             pecasPretas[i++] = new Peao("preto");
@@ -78,7 +184,18 @@ public class Jogo {
         pecasPretas[i] = new Rei("preto");
     }
 
-    private void inverteVez() {
-        vezBranco = !vezBranco;
+    private void recuperarJogo() {
+        int i = 0;
+        for (String movimento : historico) {
+            if (i++ < 2) continue;
+
+            int linhaO = movimento.charAt(0) - '0';
+            char colunaO = movimento.charAt(1);
+            int linhaD = movimento.charAt(2) - '0';
+            char colunaD = movimento.charAt(3);
+
+            realizarJogada(linhaO, colunaO, linhaD, colunaD);
+            inverteVez();
+        }
     }
 }

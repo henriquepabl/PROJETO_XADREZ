@@ -1,31 +1,38 @@
 package projeto_xadrez;
 
-import java.io.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.InputMismatchException;
+import java.util.List;
+import java.util.Scanner;
 
 public class Gerenciador {
-    private boolean jogoEmAndamento;
-    private Jogo jogo;
+    private static final Scanner sc = new Scanner(System.in);
 
-    public Gerenciador() {
-        jogoEmAndamento = false;
-        jogo = null;
+    public static void main(String[] args) {
+        Gerenciador gerenciador = new Gerenciador();
+        gerenciador.executar();
     }
 
-    public void iniciar() {
-        Scanner scanner = new Scanner(System.in);
+    public void executar() {
         int opcao;
 
-        do {
-            System.out.println("\n=== MENU PRINCIPAL ===");
-            System.out.println("1. Novo Jogo");
-            System.out.println("2. Carregar Jogo");
-            System.out.println("3. Salvar Jogo");
-            System.out.println("4. Sair");
-            System.out.print("Escolha uma opção: ");
+        while (true) {
+            exibirMenu();
 
-            opcao = scanner.nextInt();
-            scanner.nextLine(); // Limpar buffer
+            try {
+                opcao = sc.nextInt();
+                sc.nextLine();
+            }
+            catch (InputMismatchException e) {
+                System.out.println("\nInput do tipo errado, deve ser int");
+                sc.nextLine();
+                continue;
+            }
 
             switch (opcao) {
                 case 1:
@@ -35,85 +42,73 @@ public class Gerenciador {
                     carregarJogo();
                     break;
                 case 3:
-                    salvarJogo();
-                    break;
-                case 4:
-                    System.out.println("Saindo do jogo...");
-                    break;
+                    return;
                 default:
-                    System.out.println("Opção inválida!");
+                    System.out.println("\nOpção inválida.");
             }
-        } while (opcao != 4);
+        }
+    }
 
-        scanner.close();
+    private void exibirMenu() {
+        System.out.println("\n=== MENU PRINCIPAL ===");
+        System.out.println("1. Novo Jogo");
+        System.out.println("2. Carregar Jogo");
+        System.out.println("3. Sair");
+        System.out.println("======================");
+        System.out.print("\nEscolha uma opção: ");
     }
 
     private void novoJogo() {
-        jogo = new Jogo();
-        jogoEmAndamento = true;
+        Jogo jogo = new Jogo(sc);
+        jogo.jogar();
 
-        while (!jogo.terminado()) {
-            System.out.println(jogo.getTabuleiro().desenho());
-            Jogador atual = jogo.jogadorAtual();
-            String entrada = atual.informaJogada();
-
-            if (entrada.equalsIgnoreCase("parar")) break;
-
-            try {
-                Jogada jogada = new Jogada(entrada, atual, jogo.getTabuleiro());
-                if (jogada.ehValida()) {
-                    jogo.realizarJogada(jogada);
-                    jogo.registrarJogada(entrada);
-                    jogo.inverterVez();
-                } else {
-                    System.out.println("Jogada inválida. Tente novamente.");
-                }
-            } catch (Exception e) {
-                System.out.println("Erro na jogada: " + e.getMessage());
-            }
-        }
-
-        jogoEmAndamento = false;
-        System.out.println("Fim de jogo!");
-    }
-
-    private void salvarJogo() {
-        if (!jogoEmAndamento || jogo == null) {
-            System.out.println("Nenhum jogo em andamento para salvar.");
-            return;
-        }
-
-        try (FileWriter fw = new FileWriter("salvo.txt")) {
-            for (String linha : jogo.getHistorico()) {
-                fw.write(linha + "\n");
-            }
-            System.out.println("Jogo salvo com sucesso.");
-        } catch (IOException e) {
-            System.out.println("Erro ao salvar: " + e.getMessage());
-        }
+        salvarJogo(jogo);
     }
 
     private void carregarJogo() {
-        try (BufferedReader br = new BufferedReader(new FileReader("salvo.txt"))) {
-            List<String> historico = new ArrayList<>();
-            String linha;
+        System.out.print("\nDigite o nome do arquivo a ser carregado: ");
+        String nomeArquivo = sc.nextLine().trim();
 
-            while ((linha = br.readLine()) != null) {
-                historico.add(linha);
+        try (BufferedReader br = new BufferedReader(new FileReader(nomeArquivo))) {
+            List<String> historico = new ArrayList<>();
+            for (String linha = br.readLine(); linha != null; linha = br.readLine()) {
+                historico.add(linha.trim());
             }
 
-            jogo = new Jogo(historico);
-            jogoEmAndamento = true;
-            novoJogo();
+            Jogo jogo = new Jogo(sc, historico);
+            jogo.jogar();
 
-        } catch (IOException e) {
-            System.out.println("Erro ao carregar: " + e.getMessage());
+            salvarJogo(jogo);
+        }
+        catch (IOException e) {
+            System.out.println("\nErro ao carregar o jogo: " + e.getMessage());
         }
     }
 
-    public static void main(String[] args) {
-        Gerenciador g = new Gerenciador();
-        g.iniciar();
+    private void salvarJogo(Jogo jogo) {
+        while (true) {
+            System.out.print("\nDeseja salvar o jogo? (s/n): ");
+            String resposta = sc.nextLine().trim().toLowerCase();
+
+            if (resposta.equals("s")) {
+                break;
+            }
+            if (resposta.equals("n")) {
+                return;
+            }
+
+            System.out.println("\nEntrada inválida. Tente novamente.");
+        }
+
+        System.out.print("\nDigite o nome do arquivo para salvar o jogo: ");
+        String nomeArquivo = sc.nextLine().trim();
+
+        try (PrintWriter pw = new PrintWriter(new FileWriter(nomeArquivo))) {
+            pw.print(jogo.registroJogo());
+            System.out.println("\nJogo salvo com sucesso.");
+        }
+        catch (IOException e) {
+            System.out.println("\nErro ao salvar o jogo: " + e.getMessage());
+        }
     }
 }
-
