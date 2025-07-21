@@ -1,7 +1,8 @@
 package projeto_xadrez;
 
 import projeto_xadrez.pecas.*;
-
+import java.util.ArrayList;
+import java.util.List;
 public class Jogada {
     private final Jogador jogador;
     private final Caminho caminho;
@@ -15,14 +16,58 @@ public class Jogada {
         return noLimite() && casaInicialValida() && casaFinalValida() && caminhoLivre() && movimentoValido();
     }
     
-    public boolean ehXeque() {
+    public boolean ehXeque(Tabuleiro tabuleiro) {
+        Casa casaDoReiOponente = encontrarCasaDoReiOponente(tabuleiro);
+        List<Casa> pecasAtacantes = encontrarPecasDoJogador(tabuleiro);
 
-        
-        
+        for (Casa casaAtacante : pecasAtacantes) {
+            Peca peca = casaAtacante.getPeca();
+            
+            if (peca.movimentoValido(casaAtacante.getLinha(),
+                    casaAtacante.getColuna(),
+                    casaDoReiOponente.getLinha(),
+                    casaDoReiOponente.getColuna())) {
+                return true;
+            }
+        }
         return false;
     }
 
-    public boolean ehXequeMate() {return false;}
+    private List<Casa> encontrarPecasDoJogador(Tabuleiro tabuleiro) {
+        List<Casa> casasComPecas = new ArrayList<>();
+        String corJogador = jogador.getCor();
+
+        for (int i = 1; i <= 8; i++) {
+            for (char c = 'a'; c <= 'h'; c++) {
+                Casa casa = tabuleiro.getCasa(i, c);
+                if (!casa.estaVazia() && casa.getPeca().getCor().equals(corJogador)) {
+                    casasComPecas.add(casa);
+                }
+            }
+        }
+        return casasComPecas;
+    }
+
+    private Casa encontrarCasaDoReiOponente(Tabuleiro t) {
+        String corOponente = this.jogador.getCor().equals("branco") ? "preto" : "branco";
+        
+        for (int i = 1; i <= 8; i++) {
+            for (char c = 'a'; c <= 'h'; c++) {
+                Casa casa = t.getCasa(i, c);
+                if (!casa.estaVazia()) {
+                    Peca peca = casa.getPeca();
+                    if (peca instanceof Rei && peca.getCor().equals(corOponente)) {
+                        return casa;
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    public boolean ehXequeMate(Tabuleiro tabuleiro) {
+        return false;
+    }
 
     private String getMovimentoPeca(int linhaO, char colunaO, int linhaD, char colunaD, Tabuleiro tabuleiro) {
         Peca peca = tabuleiro.getCasa(linhaO, colunaO).getPeca();

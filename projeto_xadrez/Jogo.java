@@ -99,6 +99,7 @@ public class Jogo {
             try {
                 System.out.println("\n============================================");
                 System.out.println("Vez de: " + jogadorAtual.getNome());
+                if (xeque) System.out.println("Xeque!");
                 System.out.println("\nPeças capturadas por " + jogadorPreto.getNome() + ": " + jogadorBranco.pecasCapturadas());
                 System.out.println(tabuleiro.desenho());
                 System.out.println("Peças capturadas por " + jogadorBranco.getNome() + ": " + jogadorPreto.pecasCapturadas());
@@ -113,6 +114,10 @@ public class Jogo {
                     }
 
                     try {
+                        if (!entrada.matches("[1-8][a-hA-H][1-8][a-hA-H]")) {
+                            throw new IllegalArgumentException("Formato inválido. Use o formato (linha coluna linha coluna) com linha entre 1 e 8 e coluna entre 'a' e 'h'.");
+                        }
+
                         int linhaO = entrada.charAt(0) - '0';
                         char colunaO = entrada.charAt(1);
                         int linhaD = entrada.charAt(2) - '0';
@@ -123,25 +128,33 @@ public class Jogo {
                             registrarJogada(entrada);
                             inverteVez();
                             break;
-                        } else {
-                            System.out.println("Jogada inválida. Tente novamente.");
                         }
-                    } catch (StringIndexOutOfBoundsException e) {
-                        System.out.println("Formato inválido. Use o formato '1a2b' (linha coluna linha coluna).");
-                    } catch (NumberFormatException e) {
-                        System.out.println("Formato inválido. A linha deve ser um número entre 1 e 8.");
-                    } catch (IllegalArgumentException e) {
-                        System.out.println("Erro: " + e.getMessage());
+                        else {
+                            System.out.println("\nJogada inválida. Tente novamente.");
+                        }
+                    }
+                    catch (IllegalArgumentException e) {
+                        System.out.println("\nErro: " + e.getMessage());
                     }
                 }
 
-                if (xequeMate) {
-                    System.out.println("Xeque-mate! Jogo terminado.");
+                if (pecasBrancas[15].estaCapturada() || pecasPretas[15].estaCapturada()) { // SOLUÇÃO TEMPORÁRIA
+                    System.out.println("\nXeque-mate! Jogo terminado.");
                     emAndamento = false;
-                } else if (xeque) {
-                    System.out.println("Xeque!");
+                    return;
                 }
-            } catch (Exception e) {
+
+                xeque = jogada.ehXeque(tabuleiro);
+                if (xeque) {
+                    xequeMate = jogada.ehXequeMate(tabuleiro); // XEQUE-MATE NÃO IMPLEMENTADO SOLUÇÃO TEMPORÁRIA PARA FINALIZAR JOGO
+                    if (xequeMate) {
+                        System.out.println("\nXeque-mate! Jogo terminado.");
+                        emAndamento = false;
+                        return;
+                    }
+                }
+            }
+            catch (Exception e) {
                 System.out.println("Ocorreu um erro inesperado: " + e.getMessage());
             }
         }
