@@ -1,28 +1,30 @@
 package projeto_xadrez;
 
+import projeto_xadrez.pecas.*;
+
 public class Jogada {
     private final Jogador jogador;
     private final Caminho caminho;
 
-    public Jogada(String movimento, Jogador jogador, Tabuleiro tabuleiro) {
+    public Jogada(int linhaO, char colunaO, int linhaD, char colunaD, Jogador jogador, Tabuleiro tabuleiro) {
         this.jogador = jogador;
-        this.caminho = new Caminho(getMovimentoPeca(movimento, tabuleiro), tabuleiro);
+        this.caminho = new Caminho(getMovimentoPeca(linhaO, colunaO, linhaD, colunaD, tabuleiro), tabuleiro);
     }
     
     public boolean ehValida() {
         return noLimite() && casaInicialValida() && casaFinalValida() && caminhoLivre() && movimentoValido();
     }
     
-    public boolean ehXeque() {return false;}
+    public boolean ehXeque() {
+
+        
+        
+        return false;
+    }
 
     public boolean ehXequeMate() {return false;}
 
-    private String getMovimentoPeca(String movimento, Tabuleiro tabuleiro) {
-        int linhaO = movimento.charAt(0) - '0';
-        char colunaO = movimento.charAt(1);
-        int linhaD = movimento.charAt(2) - '0';
-        char colunaD = movimento.charAt(3);
-
+    private String getMovimentoPeca(int linhaO, char colunaO, int linhaD, char colunaD, Tabuleiro tabuleiro) {
         Peca peca = tabuleiro.getCasa(linhaO, colunaO).getPeca();
         if (peca == null) {
             throw new IllegalArgumentException("Não há peça na posição inicial.");

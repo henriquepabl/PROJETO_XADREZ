@@ -42,7 +42,7 @@ public class Peao extends Peca {
 
         StringBuilder caminho = new StringBuilder();
         int direcao = getCor().equals("branco") ? 1 : -1;
-        int difLinha = linhaD - linhaO;
+        int difLinha = Math.abs(linhaD - linhaO);
 
         caminho.append(linhaO).append(colunaO);
         if (difLinha == 2) caminho.append(linhaO + direcao).append(colunaO);

@@ -1,17 +1,26 @@
 package projeto_xadrez;
 
-import java.util.Scanner;
 import projeto_xadrez.pecas.*;
+import java.util.Scanner;
 
 public class Jogador {
     private final String nome;
     private final String cor;
     private final Peca[] pecas;
+    private final Scanner in;
 
-    public Jogador(String cor, Peca[] pecas) {
+    public Jogador(String cor, Peca[] pecas, Scanner in) {
         this.cor = cor;
         this.pecas = pecas;
+        this.in = in;
         this.nome = solicitarNome();
+    }
+
+    public Jogador(String cor, String nome, Peca[] pecas, Scanner in) {
+        this.cor = cor;
+        this.pecas = pecas;
+        this.in = in;
+        this.nome = nome;
     }
 
     public String getNome() {
@@ -23,9 +32,7 @@ public class Jogador {
     }
     
     public String informaJogada() {
-        Scanner in = new Scanner(System.in);
-
-        System.out.println("Insira jogada (ou 'parar' para encerrar):");
+        System.out.print("\nInsira jogada (ou 'parar' para encerrar): ");
 
         return in.nextLine().trim();
     }
@@ -43,13 +50,12 @@ public class Jogador {
     }
 
     private String solicitarNome() {
-        Scanner scan = new Scanner(System.in);
         String nome;
         
         while (true) {
             try {
-                System.out.println("Jogador " + cor + ", digite seu nome: ");
-                nome = scan.nextLine().replaceAll(" ", "");
+                System.out.print("\nJogador " + cor + ", digite seu nome: ");
+                nome = in.nextLine().replaceAll(" ", "");
 
                 if (nome.isEmpty()) {
                     throw new IllegalArgumentException("Nome não pode estar vazio");
@@ -58,7 +64,7 @@ public class Jogador {
                 return nome;
             }
             catch (IllegalArgumentException msg) {
-                System.out.println("Nome inválido: "+ msg.getMessage());
+                System.out.println("\nNome inválido: "+ msg.getMessage());
             }
         }
     }

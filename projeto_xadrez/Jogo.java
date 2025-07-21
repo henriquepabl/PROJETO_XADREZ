@@ -102,7 +102,7 @@ public class Jogo {
                 System.out.println("\nPeças capturadas por " + jogadorPreto.getNome() + ": " + jogadorBranco.pecasCapturadas());
                 System.out.println(tabuleiro.desenho());
                 System.out.println("Peças capturadas por " + jogadorBranco.getNome() + ": " + jogadorPreto.pecasCapturadas());
-                System.out.println("============================================\n");
+                System.out.println("============================================");
 
                 String entrada;
                 while (true) {
